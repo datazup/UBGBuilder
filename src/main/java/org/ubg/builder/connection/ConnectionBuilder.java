@@ -2,10 +2,9 @@ package org.ubg.builder.connection;
 
 import com.arangodb.*;
 import com.arangodb.entity.BaseDocument;
-import com.arangodb.entity.CollectionEntity;
 import com.arangodb.entity.EdgeDefinition;
-import com.sun.javafx.geom.Edge;
 import org.ubg.builder.connection.exception.UException;
+import org.ubg.org.ubg.utils.Constants;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -94,8 +93,8 @@ public class ConnectionBuilder {
             this.arangoDB.db(db).graph(graphName).getInfo();
         } catch (Exception ex) {
             // Doesn't exists create
-            final Collection<EdgeDefinition> edgeDefinitions = new ArrayList<EdgeDefinition>();
-            final EdgeDefinition edgeDefinition = new EdgeDefinition().collection("edges").from("vertex").to("vertex");
+            final Collection<EdgeDefinition> edgeDefinitions = new ArrayList<>();
+            final EdgeDefinition edgeDefinition = new EdgeDefinition().collection(Constants.getEdgeCollectionName(graphName)).from(Constants.getVertexCollectionName(graphName)).to(Constants.getVertexCollectionName(graphName));
             edgeDefinitions.add(edgeDefinition);
             this.arangoDB.db(db).createGraph(graphName, edgeDefinitions, null);
         }
